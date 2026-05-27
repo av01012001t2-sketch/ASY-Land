@@ -45,6 +45,7 @@
         }
         .logo {
             font-size:1.4rem; font-weight:700; color:var(--white); text-decoration:none;
+            position: relative; z-index: 102;
         }
         .logo span {
             background:var(--gradient-gold);
@@ -66,10 +67,17 @@
             background:var(--gold); color:#000;
             box-shadow:0 8px 28px rgba(201,146,62,0.3); transform:translateY(-2px);
         }
-        .burger { display:none; flex-direction:column; gap:5px; cursor:pointer;
-            background:none; border:none; padding:5px; z-index:101; }
+        .burger { 
+            display:none; flex-direction:column; gap:5px; cursor:pointer;
+            background:none; border:none; padding:5px; z-index:102; 
+        }
         .burger span { width:24px; height:2px; background:var(--white); border-radius:2px;
             transition:all 0.3s; }
+
+        /* Анимация бургера в крестик */
+        .burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* SECTIONS */
         .section { padding:100px 32px; max-width:1100px; margin:0 auto; position:relative; }
@@ -130,7 +138,7 @@
             border:1px solid rgba(201,146,62,0.15); border-radius:38px; pointer-events:none;
         }
 
-        /* PAIN — свидание на крыше (4) */
+        /* PAIN */
         .pain-section {
             position:relative;
             background:
@@ -172,7 +180,7 @@
             font-style:italic; color:var(--white); font-size:0.95rem; line-height:1.6;
         }
 
-        /* RESULTS — поцелуй с шампанским (3) */
+        /* RESULTS */
         .results-section {
             position:relative;
             background:
@@ -238,7 +246,7 @@
         .format-card h4 { color:var(--white); font-size:0.95rem; font-weight:700; }
         .format-card p { color:var(--text-muted); font-size:0.85rem; margin-top:4px; }
 
-        /* TESTIMONIALS — поцелуй на пляже (1) */
+        /* TESTIMONIALS */
         .testimonials-section {
             position:relative;
             background:
@@ -280,7 +288,7 @@
         .advantage-block h3 { color:var(--white); font-size:1.4rem; position:relative; z-index:1; font-weight:700; }
         .advantage-block p { color:var(--text-muted); position:relative; z-index:1; margin-top:10px; font-size:1rem; }
 
-        /* CTA — девушки в клубе (2) */
+        /* CTA */
         .cta-section-wrap {
             position:relative;
             background:
@@ -316,20 +324,30 @@
             font-size:0.8rem; border-top:1px solid var(--border); max-width:1100px; margin:0 auto;
         }
 
-        /* ANIMATIONS */
-        .fade-in { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.16,1,0.3,1); }
+        /* ANIMATIONS (Исправлено) */
+        .fade-in { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
         .fade-in.visible { opacity:1; transform:translateY(0); }
 
         /* MOBILE */
         @media (max-width:768px) {
-            .header-nav a:not(.header-cta) { display:none; }
-            .burger { display:flex; }
-            .header-nav.mobile-open {
-                position:fixed; top:0; left:0; right:0; bottom:0;
+            .header-nav {
+                position:fixed; top:0; left:100%; right:-100%; bottom:0;
                 background:rgba(8,8,8,0.98); flex-direction:column;
-                justify-content:center; align-items:center; gap:28px; z-index:100;
+                justify-content:center; align-items:center; gap:28px; z-index:101;
+                transition: left 0.4s ease, right 0.4s ease;
             }
-            .header-nav.mobile-open a { display:block; font-size:1.2rem; }
+            .header-nav a { font-size:1.2rem; }
+            .header-nav a:not(.header-cta) { display: block; } /* Показываем ссылки внутри мобильного меню */
+            
+            .header-nav.mobile-open {
+                left: 0; right: 0;
+            }
+            
+            .burger { display:flex; }
             .hero-inner { grid-template-columns:1fr; gap:40px; text-align:center; }
             .hero-text .sub { max-width:100%; margin-left:auto; margin-right:auto; }
             .hero-btns { justify-content:center; }
@@ -353,7 +371,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="header" id="header">
         <div class="header-inner">
             <a href="#" class="logo">Екатерина<span>.</span></a>
@@ -372,7 +389,6 @@
         </div>
     </header>
 
-    <!-- HERO -->
     <section class="hero" id="hero">
         <div class="hero-inner">
             <div class="hero-text fade-in">
@@ -388,7 +404,6 @@
         </div>
     </section>
 
-    <!-- PAIN -->
     <div class="pain-section">
         <section class="section fade-in" id="pain">
             <p class="section-label">Проблемы</p>
@@ -404,7 +419,6 @@
         </section>
     </div>
 
-    <!-- ABOUT -->
     <section class="section fade-in" id="about">
         <div class="about-block">
             <div class="about-img-wrap">
@@ -420,7 +434,6 @@
         </div>
     </section>
 
-    <!-- RESULTS -->
     <div class="results-section">
         <section class="section fade-in" id="results">
             <p class="section-label">Результат</p>
@@ -434,7 +447,6 @@
         </section>
     </div>
 
-    <!-- NOT PICKUP -->
     <div class="not-pickup-section">
         <section class="section fade-in" id="not-pickup">
             <p class="section-label">Подход</p>
@@ -465,7 +477,6 @@
         </section>
     </div>
 
-    <!-- FORMAT -->
     <section class="section fade-in" id="format">
         <p class="section-label">Формат</p>
         <h2 class="section-title">Как работаем</h2>
@@ -477,7 +488,6 @@
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
     <div class="testimonials-section">
         <section class="section fade-in" id="testimonials">
             <p class="section-label">Отзывы</p>
@@ -502,7 +512,6 @@
         </section>
     </div>
 
-    <!-- ADVANTAGE -->
     <section class="section fade-in" id="advantage">
         <div class="advantage-block">
             <h3>Моё главное преимущество</h3>
@@ -510,7 +519,6 @@
         </div>
     </section>
 
-    <!-- CTA -->
     <div class="cta-section-wrap">
         <section class="section fade-in" id="cta">
             <div class="cta-box">
@@ -527,17 +535,21 @@
         </section>
     </div>
 
-    <!-- FOOTER -->
     <footer class="footer fade-in">
         <p>© Екатерина. Курс по знакомствам для мужчин.</p>
         <p>Все консультации конфиденциальны. Телефон: +7 978 794 0416</p>
     </footer>
 
-    <!-- JAVASCRIPT -->
     <script>
+        // Настройки Observer изменены на более мягкие (чтобы контент проявлялся сразу)
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold:0.15, rootMargin:'0px 0px -40px 0px' });
+            entries.forEach(e => { 
+                if(e.isIntersecting) {
+                    e.target.classList.add('visible'); 
+                }
+            });
+        }, { threshold: 0.05 }); // Срабатывает, как только 5% блока показалось на экране
+        
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         const header = document.getElementById('header');
@@ -545,13 +557,20 @@
             header.style.boxShadow = window.scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.5)' : 'none';
         });
 
+        // Мобильное меню (Исправлено)
         const burgerBtn = document.getElementById('burgerBtn');
         const headerNav = document.getElementById('headerNav');
+        
         burgerBtn.addEventListener('click', () => {
             headerNav.classList.toggle('mobile-open');
+            burgerBtn.classList.toggle('active'); // Анимация крестика
         });
+        
         headerNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => headerNav.classList.remove('mobile-open'));
+            link.addEventListener('click', () => {
+                headerNav.classList.remove('mobile-open');
+                burgerBtn.classList.remove('active');
+            });
         });
     </script>
 </body>
